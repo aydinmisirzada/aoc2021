@@ -7,7 +7,7 @@ def load_data(src):
 def solve(data, days=80):
     """
     >>> solve([3, 4, 3, 1, 2], days=18)
-    26
+    27
 
     >>> solve([3, 4, 3, 1, 2])
     5934
