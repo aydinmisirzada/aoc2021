@@ -8,7 +8,7 @@ def sum_to_n(n):
 def solve(data):
     """
     >>> solve([16,1,2,0,4,2,7,1,2,14])
-    37
+    168
     """
 
     target = max(data)
