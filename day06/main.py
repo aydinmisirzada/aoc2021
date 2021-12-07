@@ -33,9 +33,6 @@ def solve(data, days=80):
          
 
 if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
-
     data = load_data('data.txt')
     result = solve(data)
     print(result)
