@@ -1,3 +1,5 @@
+import statistics
+
 def load_data(src):
     with open(src,'r') as f:
         return [int(i) for i in f.readline().strip().split(',')]
@@ -5,9 +7,22 @@ def load_data(src):
 def sum_to_n(n):
     return n*(n+1) // 2
 
-def solve(data):
+def part1(data):
     """
-    >>> solve([16,1,2,0,4,2,7,1,2,14])
+    >>> part1([16,1,2,0,4,2,7,1,2,14])
+    37
+    """
+
+    target = int(statistics.median(data))
+    result = sum([abs(i - target) for i in data])
+
+    return result
+
+
+
+def part2(data):
+    """
+    >>> part2([16,1,2,0,4,2,7,1,2,14])
     168
     """
 
@@ -29,5 +44,5 @@ def solve(data):
 
 if __name__ == '__main__':
     data = load_data('data.txt')
-    result = solve(data)
-    print(result)
+    print("Part 1:", part1(data))
+    print("Part 2:", part2(data))
