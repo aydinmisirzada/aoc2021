@@ -21,7 +21,6 @@ def solve(data):
 
             adjacent = (left, right, above, below)
             adjacent = [a > data[i][j] for a in adjacent]
-            print(adjacent)
 
             if all(adjacent):
                 low_points.append(data[i][j]+1)
