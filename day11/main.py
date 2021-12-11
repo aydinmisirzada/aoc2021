@@ -85,5 +85,5 @@ def solve(matrix):
 if __name__ == '__main__':
     data = load_data('data.txt')
     result = solve(data)
-    print('Part 1:',result[0])
-    print('Part 2:',result[1])
+    print('Part 1:',result[1])
+    print('Part 2:',result[0])
