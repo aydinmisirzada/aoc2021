@@ -17,7 +17,6 @@ def part2(graph):
     while queue:
         path = queue.pop(0)
 
-        #iterate over adjacent nodes
         for current_node in graph[path[-1]]:
             is_repeat = current_node.islower() and current_node in path
 
@@ -28,16 +27,10 @@ def part2(graph):
                 
             elif current_node != 'start' and not (path[0] == '*' and is_repeat):
                 queue.append((['*'] if is_repeat else []) + path + [current_node])
-		
-
 
     return finished
     
-
 if __name__ == '__main__':
     data = load_data('data.txt')
     result = part2(data)
     print(result)
-
-	
-
