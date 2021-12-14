@@ -1,31 +1,33 @@
 def load_data(src):
-    tmp = []
     with open(src,'r') as f:
-        max_x = 0
-        max_y = 0
-        lines = f.readlines()
-        empty_line = 0
-        for index, line in enumerate(lines): 
-            if line=='\n':
-                empty_line = index
-                break
-            x, y = line.strip().split(',')
-            x, y = int(x), int(y)
-            max_x = x if x > max_x else max_x
-            max_y = y if y > max_y else max_y
+        reading = 'coords'
+        data = ([],[])
+        max_x, max_y = 0, 0
+        for line in f.readlines(): 
+            line = line.strip()
+            if not line:
+                reading = 'folds'
+                continue
 
-            tmp.append((x,y))
-        
-        folds = []
-        for i in range(empty_line+1, len(lines)):
-            folds.append(lines[i].strip().split()[2].split('='))
+            if reading == 'coords':
+                x, y = line.split(',')
+                x, y = int(x), int(y)
+                max_x = x if x > max_x else max_x
+                max_y = y if y > max_y else max_y
 
-        matrix = [['.' for x in range(max_x+1)] for i in range(max_y+1)]
-        x = 0
-        y = 1
-        for coord in tmp:
-            matrix[coord[y]][coord[x]] = '#'
-        return matrix, folds
+                data[0].append((x,y))
+
+            else:
+                line = line[len('fold along '):]
+                a, b = line.split('=')
+                data[1].append((a, int(b)))
+
+        matrix = [['.' for x in range(max_x+1)] for y in range(max_y+1)]
+
+        for coord in data[0]:
+            matrix[coord[1]][coord[0]] = '#'
+
+        return matrix, data[1]
 
 def fold_horizontally(matrix, line):
     res = []
