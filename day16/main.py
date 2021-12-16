@@ -1,4 +1,5 @@
 from queue import Queue
+import math
 
 hex_to_binary = {
 '0' : '0000',
@@ -48,11 +49,33 @@ class Packet:
         self.value = value
         self.subpackets = subpackets
     
-    def set_value(self,value):
+    def packet_value(self):
         if self.type_id == 4:
-            self.value = int(value,2)
-        else:
-            raise ValueError('This packet is not of literal type')
+            return self.value
+
+        if self.type_id == 0:
+            return sum(packet.packet_value() for packet in self.subpackets)
+
+        if self.type_id == 1:
+            return math.prod(packet.packet_value() for packet in self.subpackets)
+
+        if self.type_id == 2:
+            return min(packet.packet_value() for packet in self.subpackets)
+
+        if self.type_id == 3:
+            return max(packet.packet_value() for packet in self.subpackets)
+
+        if self.type_id == 5:
+            return 1 if self.subpackets[0].packet_value() > self.subpackets[1].packet_value() else 0
+
+        if self.type_id == 6:
+            return 1 if self.subpackets[0].packet_value() < self.subpackets[1].packet_value() else 0
+
+        if self.type_id == 7:
+            return 1 if self.subpackets[0].packet_value() == self.subpackets[1].packet_value() else 0
+
+        raise Exception("Wrong type id %d" % self.type_id)
+
 
     def __repr__(self):
         rep = 'Version: '+str(self.version)+'\nType: '+str(self.type_id)
@@ -151,10 +174,14 @@ def star1(bits: Queue):
 
     return sum_version
 
+def star2(bits: Queue):
+    root = read_packet(bits)
+
+    return root.packet_value()
 
 if __name__ == '__main__':
     data = load_data('data.txt')
     q = convert_to_binary(data)
-
-    result = star1(q)
-    print(result)
+    print(star1(q))
+    q = convert_to_binary(data)
+    print(star2(q))
